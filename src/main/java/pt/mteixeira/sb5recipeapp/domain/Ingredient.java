@@ -1,7 +1,9 @@
 package pt.mteixeira.sb5recipeapp.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 
 @Entity
@@ -9,9 +11,10 @@ public class Ingredient extends BaseEntity {
 
     private String description;
     private BigDecimal amount;
-
     @ManyToOne
     private Recipe recipe;
+    @OneToOne(fetch = FetchType.EAGER)
+    private UnitOfMeasure unitOfMeasure;
 
     public String getDescription() {
         return description;
@@ -35,5 +38,13 @@ public class Ingredient extends BaseEntity {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public UnitOfMeasure getUnitOfMeasure() {
+        return unitOfMeasure;
+    }
+
+    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
     }
 }
