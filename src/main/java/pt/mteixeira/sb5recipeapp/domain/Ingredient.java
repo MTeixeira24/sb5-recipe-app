@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class Ingredient extends BaseEntity {
 
     private String description;
-    private BigDecimal amount;
+    private String amount;
     @ManyToOne
     private Recipe recipe;
     @OneToOne(fetch = FetchType.EAGER)
@@ -24,11 +24,11 @@ public class Ingredient extends BaseEntity {
         this.description = description;
     }
 
-    public BigDecimal getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 

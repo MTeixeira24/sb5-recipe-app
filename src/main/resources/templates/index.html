@@ -6,5 +6,32 @@
 </head>
 <body>
 <h1>My Recipes!</h1>
+
+<div>
+
+    <div th:each="recipe : ${recipes}">
+        <h2 th:text="${recipe.getDescription()}"></h2>
+        <ul>
+            <li><b>Cook time: </b><a th:text="${recipe.getCookTime()}"></a> minutes</li>
+            <li><b>Prep time: </b><a th:text="${recipe.getPrepTime()}"></a> minutes</li>
+            <li><b>Difficulty: </b><a th:text="${recipe.getDifficulty().name()}"></a></li>
+            <li><b>Servings: </b><a th:text="${recipe.getServings()}"></a></li>
+            <li><b>Source: </b><a th:href="${recipe.getUrl()}" th:text="${recipe.getSource()}"></a></li>
+        </ul>
+        <h3>Notes</h3>
+        <p th:text="${recipe.getNotes().getRecipeNotes()}"></p>
+        <h3>Ingredients</h3>
+        <ul>
+            <li th:each="ingredient : ${recipe.getIngredients()}">
+                <a th:text="${ingredient.getAmount()}"></a>
+                <a th:if="${ingredient.getUnitOfMeasure() != null}"><span th:text="${ingredient.getUnitOfMeasure().getUnit()}"></span></a>
+                <a th:text="${ingredient.getDescription()}"></a>
+            </li>
+        </ul>
+        <h3>Directions</h3>
+        <p th:text="${recipe.getDirections()}"></p>
+    </div>
+
+</div>
 </body>
 </html>
