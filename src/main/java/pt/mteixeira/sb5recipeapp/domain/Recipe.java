@@ -2,6 +2,8 @@ package pt.mteixeira.sb5recipeapp.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -17,8 +19,8 @@ public class Recipe extends BaseEntity {
     private String source;
     private String url;
     private String directions;
-
-    //private Difficulty difficulty
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
     @Lob
     private Byte[] image;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
@@ -105,5 +107,13 @@ public class Recipe extends BaseEntity {
 
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 }
