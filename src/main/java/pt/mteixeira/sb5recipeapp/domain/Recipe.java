@@ -37,6 +37,20 @@ public class Recipe extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
 
+    public void addIngredient(Ingredient ingredient){
+        if (ingredient == null) {
+            throw new IllegalArgumentException("ingredient must not be null");
+        }
+        ingredients.add(ingredient);
+    }
+
+    public void addCategory(Category category){
+        if (category == null) {
+            throw new IllegalArgumentException("category must not be null");
+        }
+        categories.add(category);
+    }
+
     public String getDescription() {
         return description;
     }

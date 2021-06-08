@@ -13,6 +13,13 @@ public class Notes extends BaseEntity {
     @Lob
     private String recipeNotes;
 
+    public Notes() {
+    }
+
+    public Notes(String notesContents) {
+        this.recipeNotes = notesContents;
+    }
+
     public Recipe getRecipes() {
         return recipes;
     }
@@ -28,4 +35,5 @@ public class Notes extends BaseEntity {
     public void setRecipeNotes(String recipeNotes) {
         this.recipeNotes = recipeNotes;
     }
+
 }

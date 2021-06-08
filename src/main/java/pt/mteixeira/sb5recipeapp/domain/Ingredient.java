@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import java.math.BigDecimal;
 
 @Entity
 public class Ingredient extends BaseEntity {
@@ -15,6 +14,16 @@ public class Ingredient extends BaseEntity {
     private Recipe recipe;
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure unitOfMeasure;
+
+    public Ingredient() {
+    }
+
+    public Ingredient(String amount, String description, UnitOfMeasure unitOfMeasure, Recipe recipe) {
+        this.amount = amount;
+        this.description = description;
+        this.unitOfMeasure = unitOfMeasure;
+        this.recipe = recipe;
+    }
 
     public String getDescription() {
         return description;

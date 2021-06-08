@@ -39,92 +39,40 @@ public class Bootstrap implements CommandLineRunner {
     }
 
     private void loadPerfectGuacamole() {
-        final UnitOfMeasure teaspoon = unitOfMeasureRepository.findByUnit("teaspoon").get();
-        final UnitOfMeasure tablespoon = unitOfMeasureRepository.findByUnit("tablespoon").get();
-        final UnitOfMeasure pinch = unitOfMeasureRepository.findByUnit("pinch").get();
+        final UnitOfMeasure teaspoon = unitOfMeasureRepository.findByUnit("teaspoon").orElseThrow(IllegalStateException::new);
+        final UnitOfMeasure tablespoon = unitOfMeasureRepository.findByUnit("tablespoon").orElseThrow(IllegalStateException::new);
+        final UnitOfMeasure pinch = unitOfMeasureRepository.findByUnit("pinch").orElseThrow(IllegalStateException::new);
 
-        final Category mexican = categoryRepository.findByDescription("Mexican").get();
+        final Category mexican = categoryRepository.findByDescription("Mexican").orElseThrow(IllegalStateException::new);
+        final Category american = categoryRepository.findByDescription("American").orElseThrow(IllegalStateException::new);
 
         Recipe recipe = new Recipe();
 
-        Ingredient i1 = new Ingredient();
-        i1.setAmount("2");
-        i1.setDescription("ripe avocados");
-        i1.setRecipe(recipe);
+        recipe.addCategory(mexican);
+        recipe.addCategory(american);
 
-        Ingredient i2 = new Ingredient();
-        i2.setAmount("1/4");
-        i2.setDescription("salt, plus more to taste");
-        i2.setUnitOfMeasure(teaspoon);
-        i2.setRecipe(recipe);
+        recipe.addIngredient(new Ingredient("2", "ripe avocados", null, recipe));
+        recipe.addIngredient(new Ingredient("1/4", "salt, plus more to taste", teaspoon, recipe));
+        recipe.addIngredient(new Ingredient("1", "fresh lime or lemon juice", tablespoon, recipe));
+        recipe.addIngredient(new Ingredient("2-4", "minced red onion or thinly sliced green onion", tablespoon, recipe));
+        recipe.addIngredient(new Ingredient("1-2", "serrano (or jalapeño) chilis, stems and seeds removed, minced", null, recipe));
+        recipe.addIngredient(new Ingredient("2", "cilantro (leaves and tender stems), finely chopped", tablespoon, recipe));
+        recipe.addIngredient(new Ingredient(null, "freshly ground black pepper", pinch, recipe));
+        recipe.addIngredient(new Ingredient("1/2", "ripe tomato, chopped (optional)", null, recipe));
+        recipe.addIngredient(new Ingredient(null, "Red radish or jicama slices for garnish (optional)", null, recipe));
+        recipe.addIngredient(new Ingredient(null, "Tortilla chips, to serve", null, recipe));
 
-        Ingredient i3 = new Ingredient();
-        i3.setAmount("1");
-        i3.setDescription("fresh lime or lemon juice");
-        i3.setUnitOfMeasure(tablespoon);
-        i3.setRecipe(recipe);
-
-        Ingredient i4 = new Ingredient();
-        i4.setAmount("2-4");
-        i4.setDescription("minced red onion or thinly sliced green onion");
-        i4.setUnitOfMeasure(tablespoon);
-        i4.setRecipe(recipe);
-
-        Ingredient i5 = new Ingredient();
-        i5.setAmount("1-2");
-        i5.setDescription("serrano (or jalapeño) chilis, stems and seeds removed, minced");
-        i5.setRecipe(recipe);
-
-        Ingredient i6 = new Ingredient();
-        i6.setAmount("2");
-        i6.setDescription("cilantro (leaves and tender stems), finely chopped");
-        i6.setUnitOfMeasure(tablespoon);
-        i6.setRecipe(recipe);
-
-        Ingredient i7 = new Ingredient();
-        i7.setDescription("freshly ground black pepper");
-        i7.setUnitOfMeasure(pinch);
-        i7.setRecipe(recipe);
-
-        Ingredient i8 = new Ingredient();
-        i8.setAmount("1/2");
-        i8.setDescription("ripe tomato, chopped (optional)");
-        i8.setRecipe(recipe);
-
-        Ingredient i9 = new Ingredient();
-        i9.setDescription("Red radish or jicama slices for garnish (optional)");
-        i9.setRecipe(recipe);
-
-        Ingredient i10 = new Ingredient();
-        i10.setDescription("Tortilla chips, to serve");
-        i10.setRecipe(recipe);
-
-        Set<Ingredient> ingredients = new HashSet<>();
-        ingredients.add(i1);
-        ingredients.add(i2);
-        ingredients.add(i3);
-        ingredients.add(i4);
-        ingredients.add(i5);
-        ingredients.add(i6);
-        ingredients.add(i7);
-        ingredients.add(i8);
-        ingredients.add(i9);
-        ingredients.add(i10);
-
-        Notes notes = new Notes();
-        notes.setRecipeNotes("Be careful handling chilis! If using, it's best to wear food-safe gloves. If no gloves " +
+        Notes notes = new Notes("Be careful handling chilis! If using, it's best to wear food-safe gloves. If no gloves " +
                 "are available, wash your hands thoroughly after handling, and do not touch your eyes or the area near " +
                 "your eyes for several hours afterwards.");
-
+        notes.setRecipes(recipe);
+        recipe.setNotes(notes);
 
         recipe.setDescription("Perfect Guacamole");
-        recipe.getCategories().add(mexican);
         recipe.setCookTime(10);
         recipe.setPrepTime(10);
         recipe.setServings(4);
         recipe.setDifficulty(Difficulty.EASY);
-        recipe.setNotes(notes);
-        recipe.setIngredients(ingredients);
         recipe.setSource("Simply Recipes");
         recipe.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
         recipe.setDirections("Cut the avocados in half. Remove the pit. Score the inside of the avocado with a blunt " +
