@@ -5,9 +5,7 @@ import pt.mteixeira.sb5recipeapp.domain.Recipe;
 import pt.mteixeira.sb5recipeapp.repositories.RecipeRepository;
 import pt.mteixeira.sb5recipeapp.services.RecipeService;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service

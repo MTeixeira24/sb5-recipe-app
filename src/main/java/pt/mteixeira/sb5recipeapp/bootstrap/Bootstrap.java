@@ -12,10 +12,6 @@ import pt.mteixeira.sb5recipeapp.repositories.CategoryRepository;
 import pt.mteixeira.sb5recipeapp.repositories.IngredientRepository;
 import pt.mteixeira.sb5recipeapp.repositories.RecipeRepository;
 import pt.mteixeira.sb5recipeapp.repositories.UnitOfMeasureRepository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
@@ -33,9 +29,9 @@ public class Bootstrap implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         loadPerfectGuacamole();
-        //loadSpicyGrilledChickenTacos();
+        loadSpicyGrilledChickenTacos();
     }
 
     private void loadPerfectGuacamole() {
@@ -104,6 +100,59 @@ public class Bootstrap implements CommandLineRunner {
     }
 
     private void loadSpicyGrilledChickenTacos() {
-        throw new NotImplementedException();
+        final UnitOfMeasure teaspoon = unitOfMeasureRepository.findByUnit("teaspoon").orElseThrow(IllegalStateException::new);
+        final UnitOfMeasure tablespoon = unitOfMeasureRepository.findByUnit("tablespoon").orElseThrow(IllegalStateException::new);
+
+        final Category mexican = categoryRepository.findByDescription("Mexican").orElseThrow(IllegalStateException::new);
+        final Category american = categoryRepository.findByDescription("American").orElseThrow(IllegalStateException::new);
+
+        Recipe recipe = new Recipe();
+
+        recipe.addCategory(mexican);
+        recipe.addCategory(american);
+
+        recipe.addIngredient(new Ingredient("2", "ancho chili powder", tablespoon, recipe));
+        recipe.addIngredient(new Ingredient("1", "dried oregano", teaspoon, recipe));
+        recipe.addIngredient(new Ingredient("1", "dried cumin", teaspoon, recipe));
+        recipe.addIngredient(new Ingredient("1", "sugar", teaspoon, recipe));
+        recipe.addIngredient(new Ingredient("1/2", "salt", teaspoon, recipe));
+        recipe.addIngredient(new Ingredient("1", "clove garlic, finely chopped", null, recipe));
+        recipe.addIngredient(new Ingredient("1", "finely grated orange zest", tablespoon, recipe));
+        recipe.addIngredient(new Ingredient("3", "fresh-squeezed orange juice", tablespoon, recipe));
+        recipe.addIngredient(new Ingredient("2", "olive oil", tablespoon, recipe));
+        recipe.addIngredient(new Ingredient("4 to 6", "skinless, boneless chicken thighs (1 1/4 pounds)", null, recipe));
+
+        Notes notes = new Notes("Look for ancho chile powder with the Mexican ingredients at your grocery store, " +
+                "on buy it online. (If you can't find ancho chili powder, you replace the ancho chili, the oregano, " +
+                "and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)");
+        notes.setRecipes(recipe);
+        recipe.setNotes(notes);
+
+        recipe.setDescription("Spicy Grilled Chicken Tacos");
+        recipe.setCookTime(15);
+        recipe.setPrepTime(20);
+        recipe.setServings(6);
+        recipe.setDifficulty(Difficulty.MEDIUM);
+        recipe.setSource("Simply Recipes");
+        recipe.setUrl("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
+        recipe.setDirections("Prepare a gas or charcoal grill for medium-high, direct heat. Make the marinade and coat the chicken:\n" +
+                "In a large bowl, stir together the chili powder, oregano, cumin, sugar, salt, garlic and orange zest. " +
+                "Stir in the orange juice and olive oil to make a loose paste. Add the chicken to the bowl and toss to coat all over.\n" +
+                "\n" +
+                "Set aside to marinate while the grill heats and you prepare the rest of the toppings.\n" +
+                "Grill the chicken:\n" +
+                "Grill the chicken for 3 to 4 minutes per side, or until a thermometer inserted into the thickest " +
+                "part of the meat registers 165F. Transfer to a plate and rest for 5 minutes.\n" +
+                "Warm the tortillas:\n" +
+                "Place each tortilla on the grill or on a hot, dry skillet over medium-high heat. As soon as you see " +
+                "pockets of the air start to puff up in the tortilla, turn it with tongs and heat for a few seconds on the other side.\n" +
+                "\n" +
+                "Wrap warmed tortillas in a tea towel to keep them warm until serving.\n" +
+                "\n" +
+                "Assemble the tacos:\n" +
+                "Slice the chicken into strips. On each tortilla, place a small handful of arugula. Top with chicken " +
+                "slices, sliced avocado, radishes, tomatoes, and onion slices. Drizzle with the thinned sour cream. Serve with lime wedges.");
+
+        recipeRepository.save(recipe);
     }
 }
