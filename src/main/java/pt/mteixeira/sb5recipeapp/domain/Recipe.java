@@ -41,6 +41,9 @@ public class Recipe extends BaseEntity {
         if (ingredient == null) {
             throw new IllegalArgumentException("ingredient must not be null");
         }
+        if (ingredient.getRecipe() != this) {
+            ingredient.setRecipe(this);
+        }
         ingredients.add(ingredient);
     }
 
@@ -120,6 +123,9 @@ public class Recipe extends BaseEntity {
     }
 
     public void setNotes(Notes notes) {
+        if(notes.getRecipes() != this) {
+            notes.setRecipes(this);
+        }
         this.notes = notes;
     }
 

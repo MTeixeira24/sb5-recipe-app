@@ -47,22 +47,20 @@ public class Bootstrap implements CommandLineRunner {
         recipe.addCategory(mexican);
         recipe.addCategory(american);
 
-        recipe.addIngredient(new Ingredient("2", "ripe avocados", null, recipe));
-        recipe.addIngredient(new Ingredient("1/4", "salt, plus more to taste", teaspoon, recipe));
-        recipe.addIngredient(new Ingredient("1", "fresh lime or lemon juice", tablespoon, recipe));
-        recipe.addIngredient(new Ingredient("2-4", "minced red onion or thinly sliced green onion", tablespoon, recipe));
-        recipe.addIngredient(new Ingredient("1-2", "serrano (or jalapeño) chilis, stems and seeds removed, minced", null, recipe));
-        recipe.addIngredient(new Ingredient("2", "cilantro (leaves and tender stems), finely chopped", tablespoon, recipe));
-        recipe.addIngredient(new Ingredient(null, "freshly ground black pepper", pinch, recipe));
-        recipe.addIngredient(new Ingredient("1/2", "ripe tomato, chopped (optional)", null, recipe));
-        recipe.addIngredient(new Ingredient(null, "Red radish or jicama slices for garnish (optional)", null, recipe));
-        recipe.addIngredient(new Ingredient(null, "Tortilla chips, to serve", null, recipe));
+        recipe.addIngredient(new Ingredient("2", "ripe avocados", null));
+        recipe.addIngredient(new Ingredient("1/4", "salt, plus more to taste", teaspoon));
+        recipe.addIngredient(new Ingredient("1", "fresh lime or lemon juice", tablespoon));
+        recipe.addIngredient(new Ingredient("2-4", "minced red onion or thinly sliced green onion", tablespoon));
+        recipe.addIngredient(new Ingredient("1-2", "serrano (or jalapeño) chilis, stems and seeds removed, minced", null));
+        recipe.addIngredient(new Ingredient("2", "cilantro (leaves and tender stems), finely chopped", tablespoon));
+        recipe.addIngredient(new Ingredient(null, "freshly ground black pepper", pinch));
+        recipe.addIngredient(new Ingredient("1/2", "ripe tomato, chopped (optional)", null));
+        recipe.addIngredient(new Ingredient(null, "Red radish or jicama slices for garnish (optional)", null));
+        recipe.addIngredient(new Ingredient(null, "Tortilla chips, to serve", null));
 
-        Notes notes = new Notes("Be careful handling chilis! If using, it's best to wear food-safe gloves. If no gloves " +
+        recipe.setNotes(new Notes("Be careful handling chilis! If using, it's best to wear food-safe gloves. If no gloves " +
                 "are available, wash your hands thoroughly after handling, and do not touch your eyes or the area near " +
-                "your eyes for several hours afterwards.");
-        notes.setRecipes(recipe);
-        recipe.setNotes(notes);
+                "your eyes for several hours afterwards."));
 
         recipe.setDescription("Perfect Guacamole");
         recipe.setCookTime(10);
@@ -111,22 +109,20 @@ public class Bootstrap implements CommandLineRunner {
         recipe.addCategory(mexican);
         recipe.addCategory(american);
 
-        recipe.addIngredient(new Ingredient("2", "ancho chili powder", tablespoon, recipe));
-        recipe.addIngredient(new Ingredient("1", "dried oregano", teaspoon, recipe));
-        recipe.addIngredient(new Ingredient("1", "dried cumin", teaspoon, recipe));
-        recipe.addIngredient(new Ingredient("1", "sugar", teaspoon, recipe));
-        recipe.addIngredient(new Ingredient("1/2", "salt", teaspoon, recipe));
-        recipe.addIngredient(new Ingredient("1", "clove garlic, finely chopped", null, recipe));
-        recipe.addIngredient(new Ingredient("1", "finely grated orange zest", tablespoon, recipe));
-        recipe.addIngredient(new Ingredient("3", "fresh-squeezed orange juice", tablespoon, recipe));
-        recipe.addIngredient(new Ingredient("2", "olive oil", tablespoon, recipe));
-        recipe.addIngredient(new Ingredient("4 to 6", "skinless, boneless chicken thighs (1 1/4 pounds)", null, recipe));
+        recipe.addIngredient(new Ingredient("2", "ancho chili powder", tablespoon));
+        recipe.addIngredient(new Ingredient("1", "dried oregano", teaspoon));
+        recipe.addIngredient(new Ingredient("1", "dried cumin", teaspoon));
+        recipe.addIngredient(new Ingredient("1", "sugar", teaspoon));
+        recipe.addIngredient(new Ingredient("1/2", "salt", teaspoon));
+        recipe.addIngredient(new Ingredient("1", "clove garlic, finely chopped", null));
+        recipe.addIngredient(new Ingredient("1", "finely grated orange zest", tablespoon));
+        recipe.addIngredient(new Ingredient("3", "fresh-squeezed orange juice", tablespoon));
+        recipe.addIngredient(new Ingredient("2", "olive oil", tablespoon));
+        recipe.addIngredient(new Ingredient("4 to 6", "skinless, boneless chicken thighs (1 1/4 pounds)", null));
 
-        Notes notes = new Notes("Look for ancho chile powder with the Mexican ingredients at your grocery store, " +
+        recipe.setNotes(new Notes("Look for ancho chile powder with the Mexican ingredients at your grocery store, " +
                 "on buy it online. (If you can't find ancho chili powder, you replace the ancho chili, the oregano, " +
-                "and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)");
-        notes.setRecipes(recipe);
-        recipe.setNotes(notes);
+                "and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)"));
 
         recipe.setDescription("Spicy Grilled Chicken Tacos");
         recipe.setCookTime(15);
