@@ -6,7 +6,9 @@ import pt.mteixeira.sb5recipeapp.repositories.RecipeRepository;
 import pt.mteixeira.sb5recipeapp.services.RecipeService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -18,12 +20,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> getAllRecipes() {
-        long size = recipeRepository.count();
-        Iterable<Recipe> result = recipeRepository.findAll();
-        List<Recipe> recipes = new ArrayList<>((int) size);
-        result.forEach(Recipe::getIngredients);
-        result.forEach(recipes::add);
+    public Set<Recipe> getAllRecipes() {
+        Set<Recipe> recipes = new HashSet<>();
+        recipeRepository.findAll().iterator().forEachRemaining(recipes::add);
         return recipes;
     }
 }

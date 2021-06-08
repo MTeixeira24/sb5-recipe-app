@@ -2,10 +2,10 @@ package pt.mteixeira.sb5recipeapp.services;
 
 import pt.mteixeira.sb5recipeapp.domain.Recipe;
 
-import java.util.List;
+import java.util.Set;
 
 public interface RecipeService {
 
-    List<Recipe> getAllRecipes();
+    Set<Recipe> getAllRecipes();
 
 }
