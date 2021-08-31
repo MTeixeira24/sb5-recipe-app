@@ -1,5 +1,7 @@
 package pt.mteixeira.sb5recipeapp.bootstrap;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pt.mteixeira.sb5recipeapp.domain.Category;
@@ -9,28 +11,26 @@ import pt.mteixeira.sb5recipeapp.domain.Notes;
 import pt.mteixeira.sb5recipeapp.domain.Recipe;
 import pt.mteixeira.sb5recipeapp.domain.UnitOfMeasure;
 import pt.mteixeira.sb5recipeapp.repositories.CategoryRepository;
-import pt.mteixeira.sb5recipeapp.repositories.IngredientRepository;
 import pt.mteixeira.sb5recipeapp.repositories.RecipeRepository;
 import pt.mteixeira.sb5recipeapp.repositories.UnitOfMeasureRepository;
 
+import javax.transaction.Transactional;
+
+@Slf4j
+@RequiredArgsConstructor
 @Component
 public class Bootstrap implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final RecipeRepository recipeRepository;
-    private final IngredientRepository ingredientRepository;
-
-    public Bootstrap(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository, RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
-        this.categoryRepository = categoryRepository;
-        this.unitOfMeasureRepository = unitOfMeasureRepository;
-        this.recipeRepository = recipeRepository;
-        this.ingredientRepository = ingredientRepository;
-    }
 
     @Override
+    @Transactional
     public void run(String... args) {
+        log.info("operation='run', msg='loading perfect guacamole'");
         loadPerfectGuacamole();
+        log.info("operation='run', msg='loading spicy grilled chicken tacos'");
         loadSpicyGrilledChickenTacos();
     }
 
@@ -38,9 +38,11 @@ public class Bootstrap implements CommandLineRunner {
         final UnitOfMeasure teaspoon = unitOfMeasureRepository.findByUnit("teaspoon").orElseThrow(IllegalStateException::new);
         final UnitOfMeasure tablespoon = unitOfMeasureRepository.findByUnit("tablespoon").orElseThrow(IllegalStateException::new);
         final UnitOfMeasure pinch = unitOfMeasureRepository.findByUnit("pinch").orElseThrow(IllegalStateException::new);
+        log.info("operation='loadPerfectGuacamole', msg='retrieved units of measures'");
 
         final Category mexican = categoryRepository.findByDescription("Mexican").orElseThrow(IllegalStateException::new);
         final Category american = categoryRepository.findByDescription("American").orElseThrow(IllegalStateException::new);
+        log.info("operation='loadPerfectGuacamole', msg='retrieved categories'");
 
         Recipe recipe = new Recipe();
 
@@ -94,15 +96,18 @@ public class Bootstrap implements CommandLineRunner {
                 "add it just before serving.");
 
         recipeRepository.save(recipe);
+        log.info("operation='loadPerfectGuacamole', msg='saved recipe'");
 
     }
 
     private void loadSpicyGrilledChickenTacos() {
         final UnitOfMeasure teaspoon = unitOfMeasureRepository.findByUnit("teaspoon").orElseThrow(IllegalStateException::new);
         final UnitOfMeasure tablespoon = unitOfMeasureRepository.findByUnit("tablespoon").orElseThrow(IllegalStateException::new);
+        log.info("operation='loadSpicyGrilledChickenTacos', msg='retrieved units of measure'");
 
         final Category mexican = categoryRepository.findByDescription("Mexican").orElseThrow(IllegalStateException::new);
         final Category american = categoryRepository.findByDescription("American").orElseThrow(IllegalStateException::new);
+        log.info("operation='loadSpicyGrilledChickenTacos', msg='retrieved categories'");
 
         Recipe recipe = new Recipe();
 
@@ -150,5 +155,6 @@ public class Bootstrap implements CommandLineRunner {
                 "slices, sliced avocado, radishes, tomatoes, and onion slices. Drizzle with the thinned sour cream. Serve with lime wedges.");
 
         recipeRepository.save(recipe);
+        log.info("operation='loadSpicyGrilledChickenTacos', msg='saved recipe'");
     }
 }
