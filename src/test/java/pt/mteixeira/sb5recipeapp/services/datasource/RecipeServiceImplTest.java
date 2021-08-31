@@ -11,6 +11,8 @@ import pt.mteixeira.sb5recipeapp.repositories.RecipeRepository;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class RecipeServiceImplTest {
@@ -40,5 +42,6 @@ class RecipeServiceImplTest {
         when(recipeRepository.findAll()).thenReturn(recipes);
         Set<Recipe> actual = victim.getAllRecipes();
         assertEquals(recipes, actual);
+        verify(recipeRepository, times(1)).findAll();
     }
 }
