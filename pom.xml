@@ -15,6 +15,8 @@
     <description>Practice app for sprint boot and hibernate</description>
     <properties>
         <java.version>1.8</java.version>
+        <webjars.bootstrap.version>5.1.0</webjars.bootstrap.version>
+        <webjars.jquery.version>3.6.0</webjars.jquery.version>
     </properties>
     <dependencies>
         <dependency>
@@ -49,6 +51,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Web Jars -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${webjars.bootstrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${webjars.jquery.version}</version>
         </dependency>
     </dependencies>
 
