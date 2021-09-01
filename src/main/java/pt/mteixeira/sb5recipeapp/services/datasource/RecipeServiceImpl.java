@@ -7,6 +7,7 @@ import pt.mteixeira.sb5recipeapp.repositories.RecipeRepository;
 import pt.mteixeira.sb5recipeapp.services.RecipeService;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -25,5 +26,11 @@ public class RecipeServiceImpl implements RecipeService {
         Set<Recipe> recipes = new HashSet<>();
         recipeRepository.findAll().iterator().forEachRemaining(recipes::add);
         return recipes;
+    }
+
+    @Override
+    public Optional<Recipe> findById(long id) {
+        log.info("operation='getById', msg='retrieving recipe by id', id={}", id);
+        return recipeRepository.findById(id);
     }
 }

@@ -21,33 +21,74 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div>
+
                 <div class="card" style="margin-bottom: 20px">
                     <div class="card-header bg-primary text-white">
+
                         <h2 th:remove="all">Sample Recipe</h2>
                         <h2 th:text="${recipe.getDescription()}"></h2>
                     </div>
                     <div class="card-body">
-                        <div class="card-text">
-                            <ul>
-                                <li><b>Cook time: </b><a th:text="${recipe.getCookTime()}"></a> minutes</li>
-                                <li><b>Prep time: </b><a th:text="${recipe.getPrepTime()}"></a> minutes</li>
-                                <li><b>Difficulty: </b><a th:text="${recipe.getDifficulty().name()}"></a></li>
-                                <li><b>Servings: </b><a th:text="${recipe.getServings()}"></a></li>
-                                <li><b>Source: </b><a th:href="${recipe.getUrl()}" th:text="${recipe.getSource()}"></a></li>
-                            </ul>
-                            <h3>Notes</h3>
-                            <p th:text="${recipe.getNotes().getRecipeNotes()}"></p>
-                            <h3>Ingredients</h3>
-                            <ul>
-                                <li th:each="ingredient : ${recipe.getIngredients()}">
-                                    <a th:text="${ingredient.getAmount()}"></a>
-                                    <a th:if="${ingredient.getUnitOfMeasure() != null}"><span th:text="${ingredient.getUnitOfMeasure().getUnit()}"></span></a>
-                                    <a th:text="${ingredient.getDescription()}"></a>
-                                </li>
-                            </ul>
-                            <h3>Directions</h3>
-                            <p th:text="${recipe.getDirections()}"></p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><b>Cook time: </b><a th:text="${recipe.getCookTime()}">10</a> minutes</li>
+                                    <li><b>Prep time: </b><a th:text="${recipe.getPrepTime()}">30</a> minutes</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><b>Difficulty: </b><a th:text="${recipe.getDifficulty().name()}">Easy</a>
+                                    </li>
+                                    <li><b>Servings: </b><a th:text="${recipe.getServings()}">2</a></li>
+                                    <li><b>Source: </b><a th:href="${recipe.getUrl()}"
+                                                          th:text="${recipe.getSource()}">example.com</a></li>
+                                </ul>
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px">
+                    <div class="card-header bg-primary text-white">
+                        <h3>Notes</h3>
+                    </div>
+                    <div class="card-body">
+                        <p th:text="${recipe.getNotes().getRecipeNotes()}">
+                            Lorem Ipsum
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px">
+                    <div class="card-header bg-primary text-white">
+                        <h3>Ingredients</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li th:remove="all">
+                                <a> 5 </a>
+                                <a><span>Pinches</span></a>
+                                <a>Salt</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li th:each="ingredient : ${recipe.getIngredients()}">
+                                <a th:text="${ingredient.getAmount()}"></a>
+                                <a th:if="${ingredient.getUnitOfMeasure() != null}"><span
+                                        th:text="${ingredient.getUnitOfMeasure().getUnit()}"></span></a>
+                                <a th:text="${ingredient.getDescription()}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px">
+                    <div class="card-header bg-primary text-white">
+                        <h3>Directions</h3>
+                    </div>
+                    <div class="card-body">
+                        <p th:text="${recipe.getDirections()}">Lorem Ipsum</p>
                     </div>
                 </div>
             </div>
