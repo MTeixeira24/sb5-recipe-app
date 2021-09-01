@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Recipe View</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.js}"></script>
+    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div>
+                <div class="card" style="margin-bottom: 20px">
+                    <div class="card-header bg-primary text-white">
+                        <h2 th:remove="all">Sample Recipe</h2>
+                        <h2 th:text="${recipe.getDescription()}"></h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <ul>
+                                <li><b>Cook time: </b><a th:text="${recipe.getCookTime()}"></a> minutes</li>
+                                <li><b>Prep time: </b><a th:text="${recipe.getPrepTime()}"></a> minutes</li>
+                                <li><b>Difficulty: </b><a th:text="${recipe.getDifficulty().name()}"></a></li>
+                                <li><b>Servings: </b><a th:text="${recipe.getServings()}"></a></li>
+                                <li><b>Source: </b><a th:href="${recipe.getUrl()}" th:text="${recipe.getSource()}"></a></li>
+                            </ul>
+                            <h3>Notes</h3>
+                            <p th:text="${recipe.getNotes().getRecipeNotes()}"></p>
+                            <h3>Ingredients</h3>
+                            <ul>
+                                <li th:each="ingredient : ${recipe.getIngredients()}">
+                                    <a th:text="${ingredient.getAmount()}"></a>
+                                    <a th:if="${ingredient.getUnitOfMeasure() != null}"><span th:text="${ingredient.getUnitOfMeasure().getUnit()}"></span></a>
+                                    <a th:text="${ingredient.getDescription()}"></a>
+                                </li>
+                            </ul>
+                            <h3>Directions</h3>
+                            <p th:text="${recipe.getDirections()}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

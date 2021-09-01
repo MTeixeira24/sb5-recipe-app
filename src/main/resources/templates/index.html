@@ -21,34 +21,24 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
                 <div>
-                    <h1>My Recipes!</h1>
-                </div>
-                <div th:if="${not #lists.isEmpty(recipes)}">
-                    <div class="card" th:each="recipe : ${recipes}" style="margin-bottom: 20px">
+                    <div class="card"style="margin-bottom: 20px">
                         <div class="card-header bg-primary text-white">
-                            <h2 th:text="${recipe.getDescription()}"></h2>
+                            <h2>My Recipes</h2>
                         </div>
                         <div class="card-body">
-                            <div class="card-text">
-                                <ul>
-                                    <li><b>Cook time: </b><a th:text="${recipe.getCookTime()}"></a> minutes</li>
-                                    <li><b>Prep time: </b><a th:text="${recipe.getPrepTime()}"></a> minutes</li>
-                                    <li><b>Difficulty: </b><a th:text="${recipe.getDifficulty().name()}"></a></li>
-                                    <li><b>Servings: </b><a th:text="${recipe.getServings()}"></a></li>
-                                    <li><b>Source: </b><a th:href="${recipe.getUrl()}" th:text="${recipe.getSource()}"></a></li>
-                                </ul>
-                                <h3>Notes</h3>
-                                <p th:text="${recipe.getNotes().getRecipeNotes()}"></p>
-                                <h3>Ingredients</h3>
-                                <ul>
-                                    <li th:each="ingredient : ${recipe.getIngredients()}">
-                                        <a th:text="${ingredient.getAmount()}"></a>
-                                        <a th:if="${ingredient.getUnitOfMeasure() != null}"><span th:text="${ingredient.getUnitOfMeasure().getUnit()}"></span></a>
-                                        <a th:text="${ingredient.getDescription()}"></a>
-                                    </li>
-                                </ul>
-                                <h3>Directions</h3>
-                                <p th:text="${recipe.getDirections()}"></p>
+                            <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Description</th>
+                                        <th>View</th>
+                                    </tr>
+                                    <tr th:each="recipe : ${recipes}">
+                                        <td th:text="${recipe.getId()}">123</td>
+                                        <td th:text="${recipe.getDescription()}">A sample recipe</td>
+                                        <td><a href="#" th:href="@{'/recipe/show' + ${recipe.getId()}}">View</a></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
