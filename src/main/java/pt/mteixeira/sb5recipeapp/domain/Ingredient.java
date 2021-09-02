@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Data
-@EqualsAndHashCode(exclude = {"recipe"})
+@EqualsAndHashCode(exclude = {"recipe"}, callSuper = true)
 @NoArgsConstructor
 @Entity
 public class Ingredient extends BaseEntity {
