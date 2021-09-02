@@ -2,7 +2,9 @@ package pt.mteixeira.sb5recipeapp.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,8 @@ import javax.persistence.MappedSuperclass;
 @EqualsAndHashCode
 @ToString
 @MappedSuperclass
+@SuperBuilder
+@NoArgsConstructor
 public abstract class BaseEntity {
 
     @Id

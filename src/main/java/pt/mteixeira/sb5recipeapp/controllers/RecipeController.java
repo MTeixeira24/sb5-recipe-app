@@ -3,9 +3,12 @@ package pt.mteixeira.sb5recipeapp.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import pt.mteixeira.sb5recipeapp.commands.RecipeCommand;
 import pt.mteixeira.sb5recipeapp.controllers.exceptions.EntityNotFoundException;
 import pt.mteixeira.sb5recipeapp.domain.Recipe;
 import pt.mteixeira.sb5recipeapp.services.RecipeService;
@@ -36,6 +39,19 @@ public class RecipeController {
         model.addAttribute("categories", stringBuilder.toString());
 
         return "show";
+    }
+
+    @RequestMapping(path = "/recipe/new")
+    public String newRecipe(Model model) {
+        model.addAttribute("recipe", new RecipeCommand());
+        return "recipeForm";
+    }
+
+    @PostMapping
+    @RequestMapping("recipe")
+    public String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand) {
+        RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipeCommand);
+        return "redirect:/recipe/show/" + savedRecipe.getId();
     }
 
 }

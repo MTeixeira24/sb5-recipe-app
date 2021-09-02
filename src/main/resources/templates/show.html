@@ -45,7 +45,9 @@
                             </div>
                             <div class="col-md-6">
                                 <ul>
-                                    <li><b>Difficulty: </b><a th:text="${recipe.getDifficulty().name()}">Easy</a>
+                                    <li><b>Difficulty: </b><a th:if="${recipe.getDifficulty() != null}">
+                                        <a th:text="${recipe.getDifficulty().name()}">Easy</a>
+                                    </a>
                                     </li>
                                     <li><b>Servings: </b><a th:text="${recipe.getServings()}">2</a></li>
                                     <li><b>Source: </b><a th:href="${recipe.getUrl()}"

@@ -1,10 +1,10 @@
 package pt.mteixeira.sb5recipeapp.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -17,11 +17,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.HashSet;
-
 import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = {"ingredients", "categories"}, callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
 public class Recipe extends BaseEntity {
 
@@ -64,7 +66,7 @@ public class Recipe extends BaseEntity {
     }
 
     public void setNotes(Notes notes) {
-        if(notes.getRecipes() != this) {
+        if (notes.getRecipes() != this) {
             notes.setRecipes(this);
         }
         this.notes = notes;
