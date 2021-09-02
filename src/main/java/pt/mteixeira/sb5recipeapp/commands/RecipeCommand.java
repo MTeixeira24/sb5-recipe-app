@@ -1,5 +1,7 @@
 package pt.mteixeira.sb5recipeapp.commands;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pt.mteixeira.sb5recipeapp.domain.Difficulty;
@@ -9,7 +11,10 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RecipeCommand {
+    private Long id;
     private String description;
     private Integer prepTime;
     private Integer cookTime;
