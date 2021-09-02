@@ -3,6 +3,7 @@ package pt.mteixeira.sb5recipeapp.services.datasource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pt.mteixeira.sb5recipeapp.commands.RecipeCommand;
+import pt.mteixeira.sb5recipeapp.controllers.exceptions.EntityNotFoundException;
 import pt.mteixeira.sb5recipeapp.converters.RecipeCommandToRecipe;
 import pt.mteixeira.sb5recipeapp.converters.RecipeToRecipeCommand;
 import pt.mteixeira.sb5recipeapp.domain.Recipe;
@@ -41,7 +42,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Optional<Recipe> findById(long id) {
-        log.info("operation='getById', msg='retrieving recipe by id', id={}", id);
+        log.debug("operation='getById', msg='retrieving recipe by id', id={}", id);
         return recipeRepository.findById(id);
     }
 
@@ -55,7 +56,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Optional<RecipeCommand> findRecipeCommandById(long id) {
-        return recipeRepository.findById(id)
-                .map(recipeToRecipeCommand::convert);
+        return findById(id).map(recipeToRecipeCommand::convert);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        findById(id).orElseThrow(EntityNotFoundException::new);
+        recipeRepository.deleteById(id);
+        log.info("operation='deleteById', msg='Deleted recipe', id={}", id);
     }
 }

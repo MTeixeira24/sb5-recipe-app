@@ -160,4 +160,13 @@ class RecipeControllerTest {
 
         recipe2.getCategories().forEach(category -> assertTrue(argumentCaptor.getValue().contains(category.getDescription())));
     }
+
+    @Test
+    void shouldDeleteById() throws Exception {
+        long recipeId = 1L;
+        mockMvc.perform(MockMvcRequestBuilders.get(String.format("/recipe/%d/delete", recipeId)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("recipeDeleted"));
+        verify(recipeService, times(1)).deleteById(recipeId);
+    }
 }

@@ -3,11 +3,11 @@ package pt.mteixeira.sb5recipeapp.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import pt.mteixeira.sb5recipeapp.commands.RecipeCommand;
 import pt.mteixeira.sb5recipeapp.controllers.exceptions.EntityNotFoundException;
 import pt.mteixeira.sb5recipeapp.domain.Recipe;
@@ -26,7 +26,8 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping(path = "/recipe/{id}/show", method = RequestMethod.GET)
+    @GetMapping
+    @RequestMapping(path = "/recipe/{id}/show")
     public String getShowRecipePage(Model model,
                                     @PathVariable("id") long id) {
         log.info("operation='getShowRecipePage', msg='Find recipe', id={}", id);
@@ -41,12 +42,14 @@ public class RecipeController {
         return "showRecipe";
     }
 
+    @GetMapping
     @RequestMapping(path = "/recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
         return "recipeForm";
     }
 
+    @GetMapping
     @RequestMapping(path = "/recipe/{id}/update")
     public String updateRecipe(Model model,
                                @PathVariable("id") long id) {
@@ -55,6 +58,14 @@ public class RecipeController {
 
         model.addAttribute("recipe", recipeCommand);
         return "recipeForm";
+    }
+
+    @GetMapping
+    @RequestMapping(path = "/recipe/{id}/delete")
+    public String deleteRecipe(@PathVariable("id") long id, Model model) {
+        recipeService.deleteById(id);
+        model.addAttribute("id", id);
+        return "recipeDeleted";
     }
 
     @PostMapping
