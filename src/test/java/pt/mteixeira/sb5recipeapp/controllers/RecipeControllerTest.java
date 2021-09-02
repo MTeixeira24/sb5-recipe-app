@@ -8,11 +8,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.util.collections.Sets;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import pt.mteixeira.sb5recipeapp.commands.RecipeCommand;
 import pt.mteixeira.sb5recipeapp.controllers.exceptions.ControllerExceptionHandler;
 import pt.mteixeira.sb5recipeapp.controllers.exceptions.EntityNotFoundException;
 import pt.mteixeira.sb5recipeapp.domain.Category;
@@ -94,6 +96,24 @@ class RecipeControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name("notFound"))
                 .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("recipe"))
                 .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("categories"));
+    }
+
+    @Test
+    void shouldPostNewRecipeForm() throws Exception {
+        String description = "some description";
+
+        RecipeCommand recipeCommand = RecipeCommand.builder()
+                .id(1L)
+                .description(description)
+                .build();
+
+        when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
+        mockMvc.perform(MockMvcRequestBuilders.post("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("description", description))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/show/1"));
     }
 
     @Test
