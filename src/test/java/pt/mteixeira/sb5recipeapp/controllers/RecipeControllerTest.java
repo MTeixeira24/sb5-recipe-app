@@ -15,13 +15,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import pt.mteixeira.sb5recipeapp.controllers.exceptions.ControllerExceptionHandler;
 import pt.mteixeira.sb5recipeapp.controllers.exceptions.EntityNotFoundException;
+import pt.mteixeira.sb5recipeapp.domain.Category;
 import pt.mteixeira.sb5recipeapp.domain.Recipe;
 import pt.mteixeira.sb5recipeapp.services.RecipeService;
 
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -51,11 +54,21 @@ class RecipeControllerTest {
 
     @BeforeEach
     void setUp() {
+
+        Category mexican = new Category();
+        mexican.setDescription("Mexican");
+        Category italian = new Category();
+        italian.setDescription("Italian");
+
         recipe1 = new Recipe();
         recipe1.setId(RECIPE_ID_1);
+        recipe1.addCategory(mexican);
         recipe2 = new Recipe();
         recipe2.setId(RECIPE_ID_2);
+        recipe2.addCategory(mexican);
+        recipe2.addCategory(italian);
         recipes = Sets.newSet(recipe1, recipe2);
+
         ControllerExceptionHandler controllerExceptionHandler = new ControllerExceptionHandler();
 
         mockMvc = MockMvcBuilders.standaloneSetup(victim)
@@ -69,7 +82,8 @@ class RecipeControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/" + RECIPE_ID_2))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("show"))
-                .andExpect(MockMvcResultMatchers.model().attribute("recipe", recipe2));
+                .andExpect(MockMvcResultMatchers.model().attribute("recipe", recipe2))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("categories"));
     }
 
     @Test
@@ -78,7 +92,8 @@ class RecipeControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/" + RECIPE_ID_2))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.view().name("notFound"))
-                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("recipe"));
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("recipe"))
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("categories"));
     }
 
     @Test
@@ -97,5 +112,17 @@ class RecipeControllerTest {
         when(recipeService.findById(anyLong())).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> victim.getShowRecipePage(model, RECIPE_ID_1));
         verify(model, times(0)).addAttribute(anyString(), any());
+    }
+
+    @Test
+    void shouldBuildCategoryString() {
+        when(recipeService.findById(anyLong())).thenReturn(Optional.of(recipe2));
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        String view = victim.getShowRecipePage(model, RECIPE_ID_2);
+
+        assertEquals("show", view);
+        verify(model, times(1)).addAttribute(eq("categories"), argumentCaptor.capture());
+
+        recipe2.getCategories().forEach(category -> assertTrue(argumentCaptor.getValue().contains(category.getDescription())));
     }
 }

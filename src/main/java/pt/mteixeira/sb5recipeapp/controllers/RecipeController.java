@@ -11,6 +11,7 @@ import pt.mteixeira.sb5recipeapp.domain.Recipe;
 import pt.mteixeira.sb5recipeapp.services.RecipeService;
 
 import java.util.Optional;
+import java.util.StringJoiner;
 
 @Slf4j
 @Controller
@@ -27,7 +28,13 @@ public class RecipeController {
                                     @PathVariable("id") long id) {
         log.info("operation='getShowRecipePage', msg='Find recipe', id={}", id);
         Optional<Recipe> recipeOptional = recipeService.findById(id);
-        model.addAttribute("recipe", recipeOptional.orElseThrow(EntityNotFoundException::new));
+        Recipe recipe = recipeOptional.orElseThrow(EntityNotFoundException::new);
+        model.addAttribute("recipe", recipe);
+
+        StringJoiner stringBuilder = new StringJoiner(", ");
+        recipe.getCategories().forEach(category -> stringBuilder.add(category.getDescription()));
+        model.addAttribute("categories", stringBuilder.toString());
+
         return "show";
     }
 

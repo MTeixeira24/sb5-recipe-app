@@ -30,6 +30,13 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-md-12" style="margin-bottom: 1em">
+                                <b>Categories: </b> <a th:text="${categories}">
+                                Mexican, Italian
+                            </a>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <ul>
                                     <li><b>Cook time: </b><a th:text="${recipe.getCookTime()}">10</a> minutes</li>
