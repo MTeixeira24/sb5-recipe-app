@@ -26,7 +26,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping(path = "/recipe/show/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/recipe/{id}/show", method = RequestMethod.GET)
     public String getShowRecipePage(Model model,
                                     @PathVariable("id") long id) {
         log.info("operation='getShowRecipePage', msg='Find recipe', id={}", id);
@@ -38,7 +38,7 @@ public class RecipeController {
         recipe.getCategories().forEach(category -> stringBuilder.add(category.getDescription()));
         model.addAttribute("categories", stringBuilder.toString());
 
-        return "show";
+        return "showRecipe";
     }
 
     @RequestMapping(path = "/recipe/new")
@@ -51,7 +51,7 @@ public class RecipeController {
     @RequestMapping("recipe")
     public String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand) {
         RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipeCommand);
-        return "redirect:/recipe/show/" + savedRecipe.getId();
+        return "redirect:/recipe/" + savedRecipe.getId() + "/show";
     }
 
 }

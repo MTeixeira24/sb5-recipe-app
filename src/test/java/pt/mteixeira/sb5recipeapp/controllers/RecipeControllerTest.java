@@ -81,9 +81,9 @@ class RecipeControllerTest {
     @Test
     void shouldSucceedInReturningRecipeIfFound() throws Exception {
         when(recipeService.findById(anyLong())).thenReturn(Optional.of(recipe2));
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/" + RECIPE_ID_2))
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + RECIPE_ID_2 + "/show"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("show"))
+                .andExpect(MockMvcResultMatchers.view().name("showRecipe"))
                 .andExpect(MockMvcResultMatchers.model().attribute("recipe", recipe2))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("categories"));
     }
@@ -91,7 +91,7 @@ class RecipeControllerTest {
     @Test
     void shouldReturn404ErrorPageWhenNotFound() throws Exception {
         when(recipeService.findById(anyLong())).thenReturn(Optional.empty());
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/" + RECIPE_ID_2))
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + RECIPE_ID_2 + "/show"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.view().name("notFound"))
                 .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("recipe"))
@@ -113,7 +113,7 @@ class RecipeControllerTest {
                 .param("id", "")
                 .param("description", description))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/show/1"));
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/1/show"));
     }
 
     @Test
@@ -122,7 +122,7 @@ class RecipeControllerTest {
         ArgumentCaptor<Recipe> argumentCaptor = ArgumentCaptor.forClass(Recipe.class);
         String view = victim.getShowRecipePage(model, RECIPE_ID_1);
 
-        assertEquals("show", view);
+        assertEquals("showRecipe", view);
         verify(model, times(1)).addAttribute(eq("recipe"), argumentCaptor.capture());
         assertEquals(recipe1, argumentCaptor.getValue());
     }
@@ -140,7 +140,7 @@ class RecipeControllerTest {
         ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
         String view = victim.getShowRecipePage(model, RECIPE_ID_2);
 
-        assertEquals("show", view);
+        assertEquals("showRecipe", view);
         verify(model, times(1)).addAttribute(eq("categories"), argumentCaptor.capture());
 
         recipe2.getCategories().forEach(category -> assertTrue(argumentCaptor.getValue().contains(category.getDescription())));
