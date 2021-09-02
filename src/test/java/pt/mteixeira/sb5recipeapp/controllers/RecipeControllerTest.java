@@ -117,6 +117,21 @@ class RecipeControllerTest {
     }
 
     @Test
+    void shouldGetUpdateRecipeForm() throws Exception {
+        RecipeCommand recipeCommand = RecipeCommand.builder()
+                .id(1L)
+                .description("some description")
+                .build();
+
+        when(recipeService.findRecipeCommandById(anyLong())).thenReturn(Optional.of(recipeCommand));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/update"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("recipeForm"))
+                .andExpect(MockMvcResultMatchers.model().attribute("recipe", recipeCommand));
+    }
+
+    @Test
     void shouldAddToModelIfFound() {
         when(recipeService.findById(anyLong())).thenReturn(Optional.of(recipe1));
         ArgumentCaptor<Recipe> argumentCaptor = ArgumentCaptor.forClass(Recipe.class);

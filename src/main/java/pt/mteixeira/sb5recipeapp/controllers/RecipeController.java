@@ -47,6 +47,16 @@ public class RecipeController {
         return "recipeForm";
     }
 
+    @RequestMapping(path = "/recipe/{id}/update")
+    public String updateRecipe(Model model,
+                               @PathVariable("id") long id) {
+        Optional<RecipeCommand> recipeCommandOptional = recipeService.findRecipeCommandById(id);
+        RecipeCommand recipeCommand = recipeCommandOptional.orElseThrow(EntityNotFoundException::new);
+
+        model.addAttribute("recipe", recipeCommand);
+        return "recipeForm";
+    }
+
     @PostMapping
     @RequestMapping("recipe")
     public String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand) {
